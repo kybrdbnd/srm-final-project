@@ -7,7 +7,7 @@ parsed_data = data.json()
 # print(parsed_data)
 # print(len(parsed_data['dataset']))
 print("Name: {}\n".format(parsed_data['dataset']['name']))
-print("Data\t\tHigh")
+print("Date\t\tHigh")
 print("------------------------------------")
 for data in parsed_data['dataset']['data']:
     print ("{}\t{}".format(data[0], data[1]))

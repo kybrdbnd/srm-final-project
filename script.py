@@ -11,11 +11,13 @@ quandl.ApiConfig.api_key = 'Hqu7HLNnBU4bxBU4jLaZ'
 
 
 def plot_graph(date, high, start_date, end_date):
+    # print("hello")
     plt.xlabel("Year")
     plt.ylabel("High Value")
     title = "High Value from {} to {}".format(start_date, end_date)
     plt.title(title)
     plt.plot(date, high)
+    plt.savefig("test.png")
     # plt.axis([0, date_array, 0, high_array])
     plt.show()
 

@@ -11,7 +11,7 @@
 	<li>Mohit Sehgal (Project Leader)</li>
 	<li>Pranav Puri</li>
 	<li>Umesh Verma</li>
-	<li>Toyaz </li>li>
+	<li>Toyaz </li>
 </ul>
 <h4>Project Installation</h4>
 <ol>

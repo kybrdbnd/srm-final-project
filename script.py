@@ -10,6 +10,14 @@ import numpy as np
 quandl.ApiConfig.api_key = 'Hqu7HLNnBU4bxBU4jLaZ'
 
 
+def createtextfile(text, min_value, max_value):
+    file = open("result.txt", "w")
+    file.write(text)
+    file.write("\nSupport is Rs.{}\n".format(min_value))
+    file.write("Resistance is Rs.{}\n".format(max_value))
+    file.close()
+
+
 def drawChartSMA(close, date, sma):
     y = close
     x = date
@@ -30,17 +38,11 @@ def drawChartSMA(close, date, sma):
             max = close[t]
 
     if(sma[len(sma) - 1] < close[len(close) - 1]):
-        print("SMA says Uptrend")
-        print("Support is Rs.", min)
-        print("Resistance is Rs.", max)
+        createtextfile("SMA says Uptrend", min, max)
     elif(sma[len(sma) - 1] > close[len(close) - 1]):
-        print("SMA says Downtrend")
-        print("Support is Rs.", min)
-        print("Resistance is Rs.", max)
+        createtextfile("SMA says Downtrend", min, max)
     else:
-        print("Trend Reversal may occur")
-        print("Support is Rs.", min)
-        print("Resistance is Rs.", max)
+        createtextfile("Trend Reversal may occur", min, max)
     plt.show()
 
 
@@ -91,13 +93,16 @@ def rsiFunc(close, n, date):
         rs = up / down
         rsi[i] = 100. - 100. / (1. + rs)
         rsi[i] = float("{0:.2f}".format(rsi[i]))
-    plt.plot(date, close.tolist())
-    plt.plot(date, rsi.tolist())
+    plt.title('RSI')
+    plt.plot(date, close.tolist(), label="close")
+    plt.plot(date, rsi.tolist(), label="rsi")
+    plt.legend()
     plt.show()
     return rsi
 
 
 def plotMACD(close, ema9, emaslow, emafast, macd, date):
+    plt.title('MACD')
     plt.plot(date, emaslow.tolist(), label="slow")
     plt.plot(date, emafast.tolist(), label="fast")
     plt.plot(date, macd.tolist(), label="macd")

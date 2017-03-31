@@ -7,8 +7,9 @@ import datetime
 import numpy as np
 import matplotlib.patches as mpatches
 from math import sqrt
-from sklearn import linear_model
-#http://techpaisa.com/stock/tcs/
+from sklearn.svm import SVR
+
+
 
 quandl.ApiConfig.api_key = 'Hqu7HLNnBU4bxBU4jLaZ'
 
@@ -63,7 +64,7 @@ def movingaverage(values,window):
 def ExpMovingAverage(values,window):
     weights=np.exp(np.linspace(-1.,0.,window))
     weights/=weights.sum()
-    a=np.convolve(values,weights,mode='full')[:len(values)]
+    a=np.convolve(values,weights)[:len(values)]
     a[:window] = a[window]
     return a
 
@@ -202,8 +203,43 @@ def plotEMA(ema50,ema20,date,close):
     plt.title("EMA")
     plt.show()
 
-
-
+def predict_price(date,close,x):
+  
+    close=close.tolist()
+    x=31
+    y=len(close)-x
+    closed=[]
+   
+    date[0]=0
+ 
+    for i in range(0,30):      
+          if(y<len(close)): 
+              closed.append(close[y])
+              y=y+1
+              
+  
+    date=np.array(date).reshape((len(date),1))
+    
+    
+    svr_lin = SVR(kernel='linear',C=1e3)
+   
+    svr_poly = SVR(kernel='poly',C=1e3,degree=2)
+    svr_rbf = SVR(kernel='rbf',C=1e3,gamma=0.1)
+    
+    svr_lin.fit(date,closed)
+    svr_poly.fit(date,closed)
+    svr_rbf.fit(date,closed)
+   
+    #plt.scatter(date,closed,color='black',label='data')
+    #plt.plot(date,svr_rbf.predict(date),color='red',label='RBF Model')
+    #plt.plot(date,svr_lin.predict(date),color='green',label='Linear model')
+    #plt.plot(date,svr_poly.predict(date),color='blue',label='Polynomial model')
+    #plt.xlabel('Date')
+    #plt.ylabel('Price')
+    #plt.title('Support Vector Regression')
+    #plt.legend()
+    #plt.show()
+    return svr_rbf.predict(x)[0],svr_lin.predict(x)[0],svr_poly.predict(x)[0]
 
 try:
     name = input("Enter Ticker:")
@@ -245,9 +281,15 @@ try:
         b[:19]=0
         c[:19]=0   
         plotB_band(b.tolist(),c.tolist(),date.tolist(),close.tolist())
-        #regression(close)
-        #x,y,z = predict_price(date.tolist(),close.tolist(),24)
-        #print(x)
+        dates=[]
+        for x in range(0,30):
+            dates.append(x)
+    
+        e,f,g=predict_price(dates,close,30)
+        print(float("{0:.2f}".format(f)))
+        regression(close)
+       
+     
     except Exception:
         print("May be No. Of Attempts for today by the key is finished")
 except Exception:

@@ -259,7 +259,7 @@ try:
     try:
         meta_data = requests.get(url)
         parsed_meta_data = meta_data.json()
-        print 'Name: {}'.format(parsed_meta_data['dataset']['name'])
+        print('Name: {}'.format(parsed_meta_data['dataset']['name']))
         print('Technical Analysis Report:',
               ''.format(parsed_meta_data['dataset']['name']))
         searched_data = quandl.get('NSE/' + name)
@@ -294,9 +294,9 @@ try:
         rsi = rsiFunc(close, 14, date.tolist())
         print('RSI is:', rsi[len(rsi) - 1])
         if rsi[len(rsi) - 1] > 70:
-            print 'Stock may be Overbought'
+            print('Stock may be Overbought')
         if rsi[len(rsi) - 1] < 30:
-            print 'Stock may be Oversold'
+            print('Stock may be Oversold')
         (a, b, c) = bollinger_band(close, 20)
         a[:19] = 0
         b[:19] = 0
@@ -308,10 +308,10 @@ try:
             dates.append(x)
 
         (e, f, g) = predict_price(dates, close, 30)
-        print float('{0:.2f}'.format(f))
+        print(float('{0:.2f}'.format(f)))
         regression(close)
     except Exception:
 
-        print 'May be No. Of Attempts for today by the key is finished'
+        print('May be No. Of Attempts for today by the key is finished')
 except Exception:
-    print 'Check your Internet Connection'
+    print('Check your Internet Connection')
